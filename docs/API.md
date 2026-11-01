@@ -92,12 +92,48 @@ Both conditions must be true, so there’s no clash.
 - Each item is a Section plus its course's `code` and `title`, so the weekly view can label the blocks.
 - `total_credits` is the sum of `credits_min`
  
-
-## Endpoints (to be decided)
+## Endpoints
 
 | Method | URL | Sends | Returns |
 |---|---|---|---|
-| GET | /api/health | – | `{ "status": "ok", "catalog": "found" }` or 503 |
-| GET | /api/courses | ? | list of Course |
-| GET | /api/courses/<code> | – | one Course |
-| POST | /api/schedules | ? | list of Schedule |
+| GET | /api/health | – | 200 `{ "status": "ok", "catalog": "found" }` or 503 `{ "status": "error", "catalog": "missing" }` |
+| GET | /api/courses | query params (below) | 200, list of Course |
+| GET | /api/courses/<code> | – | 200, one Course · 404 if unknown |
+| POST | /api/schedules | JSON body (below) | 200, list of Schedule |
+
+### GET /api/courses
+
+All parameters are optional and combine with AND. No parameters returns every course.
+
+| Param | Example | Matches |
+|---|---|---|
+| `q` | `accounting` | code, title or instructor (case-insensitive, partial) |
+| `subject` | `CIS` | exact subject |
+| `credits` | `4` | `credits_min <= credits <= credits_max` |
+| `gen_ed` | `Science & Technology` | course has this Gen Ed |
+
+Example: `GET /api/courses?q=design&subject=CIS`
+
+Errors: 400 `{ "error": "credits must be a number" }`
+
+### GET /api/courses/<code>
+
+The code contains a space, so the frontend URL-encodes it: `/api/courses/CIS%203296`.
+
+Errors: 404 `{ "error": "Course CIS 9999 not found" }`
+
+### POST /api/schedules
+
+Request:
+```json
+{ "courses": ["CIS 3296", "ACCT 2103", "ENG 0711"], "limit": 20 }
+```
+- `courses`: list of course codes (the shortlist). Required.
+- `limit`: max schedules returned. Optional, default 20.
+
+Response: list of Schedule. `[]` if no conflict-free schedule exists (this is not an error).
+
+Errors:
+- 400 `{ "error": "Shortlist is empty" }`
+- 404 `{ "error": "Course XYZ 1234 not found" }`
+- Sections with no meetings (online/TBA) never conflict.
