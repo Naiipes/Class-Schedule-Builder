@@ -76,6 +76,8 @@ Example:
 - `b.start` < `a.end` → 12:20 < 12:20 ✗ (equal, not less)
 Both conditions must be true, so there’s no clash.
 
+- Sections with no meetings (online/TBA) never conflict.
+
 ---
 
 ### Schedule
@@ -90,7 +92,7 @@ Both conditions must be true, so there’s no clash.
 
 - One section per shortlisted course; no two meetings overlap.
 - Each item is a Section plus its course's `code` and `title`, so the weekly view can label the blocks.
-- `total_credits` is the sum of `credits_min`
+- `total_credits` is the total credits of the schedule. For courses with a credit range, the minimum is used (e.g. `1-4` counts as 1).
  
 ## Endpoints
 
@@ -136,4 +138,3 @@ Response: list of Schedule. `[]` if no conflict-free schedule exists (this is no
 Errors:
 - 400 `{ "error": "Shortlist is empty" }`
 - 404 `{ "error": "Course XYZ 1234 not found" }`
-- Sections with no meetings (online/TBA) never conflict.
