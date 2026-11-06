@@ -9,7 +9,7 @@ CSV_PATH = Path(__file__).parent / "data" / "TUJ_Spring2027_Courses.csv"
 def hello_world():
     return "Hello World"
 
-@app.route("/app/health")
+@app.route("/api/health")
 def health():
 
     csv_ok = CSV_PATH.exists()
