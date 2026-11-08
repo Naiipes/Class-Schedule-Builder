@@ -1,23 +1,21 @@
 from pathlib import Path
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).parent
+FRONTEND_DIR = BASE_DIR.parent / "frontend"
+CSV_PATH = BASE_DIR / "data" / "TUJ_Spring2027_Courses.csv"
 
-CSV_PATH = Path(__file__).parent / "data" / "TUJ_Spring2027_Courses.csv"
+app = Flask(__name__, static_folder=str(FRONTEND_DIR), static_url_path="")
 
 @app.route("/")
-def hello_world():
-    return "Hello World"
+def index():
+    return send_from_directory(FRONTEND_DIR, "index.html")
 
 @app.route("/api/health")
 def health():
-
-    csv_ok = CSV_PATH.exists()
-
-    if csv_ok:
+    if CSV_PATH.exists():
         return jsonify(status="ok", catalog="found"), 200
-    else:
-        return jsonify(status="error", catalog="missing"), 503
-    
-if __name__ == '__main__':
+    return jsonify(status="error", catalog="missing"), 503
+
+if __name__ == "__main__":
     app.run(debug=True, port=8000)
