@@ -75,6 +75,7 @@ class Term:
     start_date: str = ""
     end_date: str = ""
     courses: dict[str, Course] = field(default_factory=dict)
+    title: str = ""
 
     def add_course(self, course: Course) -> None:
         self.courses[course.code] = course
@@ -83,4 +84,4 @@ class Term:
         return self.courses.get(code)
 
     def to_dict(self) -> dict:
-        return {"name": self.name, "start_date": self.start_date, "end_date": self.end_date}
+        return {"title": self.title, "name": self.name, "start_date": self.start_date, "end_date": self.end_date}
