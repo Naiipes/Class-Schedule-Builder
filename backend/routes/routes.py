@@ -1,4 +1,5 @@
 from flask import Blueprint, current_app, jsonify, request
+from scheduler import generate_schedule, schedule_to_dict
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
@@ -41,3 +42,41 @@ def get_course(code):
         return jsonify(error=f"Course {code} not found"), 404
 
     return jsonify(course.to_dict())
+
+@api.post("/schedules")
+def create_schedule():
+    repo = get_repo()
+
+    if repo is None:
+        return jsonify(error="Catalog is not loaded"), 503
+
+    body = request.get_json(silent=True) or {}
+    codes = body.get("courses") or []
+
+    if not codes:
+        return jsonify(error="Shortlist is empty"), 400
+
+    try:
+        limit = int(body.get("limit", 20))
+    except (TypeError, ValueError):
+        return jsonify(error="limit must be a number"), 400
+
+    courses = []
+
+    for code in codes:
+        course = repo.get(code.upper())
+
+        if course is None:
+            return jsonify(error=f"Course {code} not found"), 404
+        
+        if course not in courses:
+            courses.append(course)
+
+    schedules = generate_schedule(courses, limit)
+    result = []
+
+    for i in range(len(schedules)):
+        schedule_id = i + 1
+        result.append(schedule_to_dict(schedule_id, schedules[i]))
+
+    return jsonify(result)
