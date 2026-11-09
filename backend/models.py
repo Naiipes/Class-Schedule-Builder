@@ -26,6 +26,7 @@ class Section:
     crn: str | None = None
     instructor: str = "TBA"
     meetings: list[Meeting] = field(default_factory=list)
+    title: str = ""
 
     def conflicts_with(self, other: "Section") -> bool:
         for this_meeting in self.meetings:
@@ -75,7 +76,6 @@ class Term:
     start_date: str = ""
     end_date: str = ""
     courses: dict[str, Course] = field(default_factory=dict)
-    title: str = ""
 
     def add_course(self, course: Course) -> None:
         self.courses[course.code] = course
