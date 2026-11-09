@@ -1,5 +1,5 @@
 const USE_MOCK = true;
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "";
 
 async function request(path, options = {}) {
     const res = await fetch(BASE_URL + path, options);
@@ -39,6 +39,7 @@ export async function getCourses(filters = {}) {
             const q = filters.q.toLowerCase();
             results = results.filter((c) => c.title.toLowerCase().includes(q) || 
                                             c.sections.some((s) => s.instructor.toLowerCase().includes(q)) ||
+                                            c.sections.some((s) => s.title.toLowerCase().includes(q)) || 
                                             c.code.toLowerCase().includes(q));
         }
 
@@ -99,6 +100,7 @@ const MOCK_COURSES = [
     source: "import",
     sections: [
       {
+        title: "Software Design",
         section: "802",
         crn: "56446",
         instructor: "Angela Faragasso",
@@ -119,6 +121,7 @@ const MOCK_COURSES = [
     source: "import",
     sections: [
       {
+        title: "History and Theory of Animation",
         section: "750",
         crn: "55975",
         instructor: "Alexandra Schuch Pernau",
@@ -139,11 +142,43 @@ const MOCK_COURSES = [
     source: "import",
     sections: [
       {
+        title: "Intellectual Heritage I: The Good Life",
         section: "760",
         crn: "49421",
         instructor: "Michael E. Brady",
         meetings: [],
       },
+    ],
+  },
+  {
+    code: "ASST 2000",
+    subject: "ASST",
+    title: "Medieval and Early Modern Japanese Literature",
+    credits_min: 2,
+    credits_max: 4,
+    gen_ed: [],
+    source: "import",
+    sections: [
+      {
+        title: "Medieval and Early Modern Japanese Literature",
+        section: "801",
+        crn: "51934",
+        instructor: "Naohiko Umewaka",
+        meetings: [
+          { day: "T", start: "12:00", end: "13:30" },
+          { day: "R", start: "12:00", end: "13:30" },
+        ],
+      },
+      {
+        title: "Ideology and Social Change in Japan",
+        section: "802",
+        crn: "58862",
+        instructor: "Kyle L. Cleveland",
+        meetings: [
+              { day: "T", start: "17:00", end: "18:30" },
+              { day: "R", start: "17:00", end: "18:30" },
+            ],
+        },
     ],
   },
 ];

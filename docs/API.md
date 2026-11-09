@@ -34,6 +34,8 @@ Errors should look like this:
   "sections": [ Section, ... ]
 }
 ```
+
+- `title`: for special topics courses, this is the first section's title. Use the section's `title` when showing a specific section.
 - `code` = `subject` + `course number`. Keep leading zeros (`ENG 0711`)
 - `gen_ed`: list of Gen Ed names, e.g. `["Science & Technology"]`. Empty if none.
 - `source`: `"import"` or `"manual"`. (Not used in Sprint 1)
@@ -44,6 +46,7 @@ Errors should look like this:
  
 ```json
 {
+  "title": "Software Design",
   "section": "802",
   "crn": "56446",
   "instructor": "Angela Faragasso",
@@ -51,6 +54,9 @@ Errors should look like this:
 }
 ```
  
+- `title` is the title of this section. Usually the same as the course's `title`,
+  but "special topics" courses have a different title per section
+  (e.g. ASST 3000: "Politics of India" and "Korean Politics").
 - `crn` is `null` for courses added manually.
 - `instructor` is `"TBA"` when the catalog has none.
 - `meetings` is an empty list for asynchronous courses.
@@ -91,7 +97,7 @@ Both conditions must be true, so there’s no clash.
 ```
 
 - One section per shortlisted course; no two meetings overlap.
-- Each item is a Section plus its course's `code` and `title`, so the weekly view can label the blocks.
+- Each item is a Section plus its course's `code`, so the weekly view can label the blocks with `code` and the section's `title`.
 - `total_credits` is the total credits of the schedule. For courses with a credit range, the minimum is used (e.g. `1-4` counts as 1).
  
 ## Endpoints
@@ -109,7 +115,7 @@ All parameters are optional and combine with AND. No parameters returns every co
 
 | Param | Example | Matches |
 |---|---|---|
-| `q` | `accounting` | code, title or instructor (case-insensitive, partial) |
+| `q` | `accounting` | code, course or section title, or instructor (case-insensitive, partial) |
 | `subject` | `CIS` | exact subject |
 | `credits` | `4` | `credits_min <= credits <= credits_max` |
 | `gen_ed` | `Science & Technology` | course has this Gen Ed |
