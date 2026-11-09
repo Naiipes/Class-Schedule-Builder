@@ -10,6 +10,7 @@ def parse_credits(text: str) -> tuple[int, int]:
     if "-" in text:
         low, high = text.split("-")
         return int(low), int(high)
+
     return int(text), int(text)
 
 def to_iso(date: str) -> str:
@@ -83,6 +84,7 @@ class CsvCatalogImporter:
                 term.add_course(course)
 
             section = Section(
+                title=row["Title"],
                 section=row["Section"],
                 crn=row["CRN"] or None,
                 instructor=row["Instructor"].strip() or "TBA",

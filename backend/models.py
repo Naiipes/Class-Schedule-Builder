@@ -26,6 +26,7 @@ class Section:
     crn: str | None = None
     instructor: str = "TBA"
     meetings: list[Meeting] = field(default_factory=list)
+    title: str = ""
 
     def conflicts_with(self, other: "Section") -> bool:
         for this_meeting in self.meetings:
@@ -36,6 +37,7 @@ class Section:
 
     def to_dict(self) -> dict:
         return {
+            "title": self.title,
             "section": self.section,
             "crn": self.crn,
             "instructor": self.instructor,
