@@ -1,7 +1,6 @@
 from models import Course, Term
 
 def matches_text(course: Course, q: str) -> bool:
-
     q = q.lower().strip()
 
     if q in course.code.lower():
@@ -11,6 +10,9 @@ def matches_text(course: Course, q: str) -> bool:
     for section in course.sections:
         if q in section.instructor.lower():
             return True
+        if q in section.title.lower():
+            return True
+
     return False
 
 class CatalogRepository:
