@@ -3,7 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Class Schedule Builder</title>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body></body>
+  <body>
+    <nav id="navbar">
+      <h1>Class Schedule Builder</h1>
+      <div id="tabs">
+        <button class="tab active" data-page="catalog">Catalog</button>
+        <button class="tab" data-page="shortlist">Shortlist (<span id="tab-count">0</span>)</button>
+        <button class="tab" data-page="schedules">Schedules</button>
+      </div>
+    </nav>
+
+    <main>
+      <!-- catalog -->
+      <div class="page" id="catalog-page">
+        <div class="two-columns">
+          <div class="left-side">
+            <label>Search courses</label>
+            <input type="search" id="search" placeholder="Search by code, title, or instructor" />
+
+            <div class="filter">
+              <span>Department:</span>
+              <div id="dept-buttons"></div>
+            </div>
+            <div class="filter">
+              <span>Credits:</span>
+              <div id="credit-buttons"></div>
+            </div>
+            <div class="filter">
+              <span>Gen Ed:</span>
+              <select id="gen-ed">
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <p class="gray" id="result-count"></p>
+            <div id="results"></div>
+          </div>
+
+          <div class="box right-side">
+            <h3>Shortlist</h3>
+            <ul id="side-shortlist"></ul>
+            <p class="gray" id="side-empty">No courses added yet.</p>
+            <p><b>Total: <span id="side-credits">0</span> credits</b></p>
+            <button data-page="shortlist">Go to shortlist</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- shortlist -->
+      <div class="page" id="shortlist-page" hidden>
+        <h2>My Shortlist</h2>
+        <p><b>Total: <span id="shortlist-credits">0</span> credits</b></p>
+        <div id="shortlist"></div>
+        <p class="gray" id="shortlist-empty">Your shortlist is empty. Add some courses from the Catalog tab.</p>
+        <p class="error" id="generate-error"></p>
+        <button id="generate-btn" class="big-btn">Generate Schedules</button>
+      </div>
+
+      <!-- schedules -->
+      <div class="page" id="schedules-page" hidden>
+        <h2>Schedules</h2>
+        <p class="gray" id="schedule-message">Go to your shortlist and click "Generate Schedules" first.</p>
+
+        <div id="schedule-switcher" hidden>
+          <button id="prev-btn">&lt; Prev</button>
+          <span id="schedule-label"></span>
+          <button id="next-btn">Next &gt;</button>
+        </div>
+
+        <div id="calendar-wrapper">
+          <div id="calendar"></div>
+        </div>
+        <div id="extra-classes"></div>
+      </div>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
 </html>
