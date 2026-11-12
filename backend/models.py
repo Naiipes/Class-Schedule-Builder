@@ -11,6 +11,8 @@ class Meeting:
     end: str
 
     def overlaps(self, other: "Meeting") -> bool:
+        if not self.start or not self.end or not other.start or not other.end:
+            return False
         return (
             self.day == other.day
             and conv_to_minutes(self.start) < conv_to_minutes(other.end)
