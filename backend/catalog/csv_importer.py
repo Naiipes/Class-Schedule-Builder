@@ -66,12 +66,15 @@ class CsvCatalogImporter:
         self.path = Path(path)
         self.term_name = term_name
 
-    def load(self) -> Term:
+    def read_rows(self) -> list[dict]:
         with open(self.path, encoding="utf-8-sig", newline="") as file:
-            rows = list(csv.DictReader(file))
+            return list(csv.DictReader(file))
+
+    def load(self) -> Term:
+        rows = self.read_rows()
 
         term = Term(self.term_name)
-
+        
         for row in rows:
             code = row["Subject"] + " " + row["Course Number"]
             course = term.get_course(code)

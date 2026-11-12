@@ -23,7 +23,7 @@ class ExcelCatalogImporter(CsvCatalogImporter):
                 elif isinstance(value, datetime):
                     value = value.strftime("%m/%d/%Y")
                 row[str(headers[i])] = str(value)
-                
+
             rows.append(row)
 
-        return row
+        return rows
