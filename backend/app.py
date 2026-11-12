@@ -1,7 +1,7 @@
 from pathlib import Path
 from flask import Flask, jsonify, send_from_directory
 
-from catalog.importer import CsvCatalogImporter
+from catalog.csv_importer import CsvCatalogImporter
 from catalog.repository import CatalogRepository
 from routes.routes import api
 

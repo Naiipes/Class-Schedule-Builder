@@ -56,6 +56,11 @@ def parse_meetings(days: str, times: str) -> list[Meeting]:
 
     return meetings
 
+def clean_text(text: str) -> str:
+    text = html.unescape(text)
+    words = text.split()
+    return " ".join(words)
+
 class CsvCatalogImporter:
     def __init__(self, path, term_name: str = "Spring 2027"):
         self.path = Path(path)
@@ -76,7 +81,7 @@ class CsvCatalogImporter:
                 course = Course(
                     subject=row["Subject"],
                     number=row["Course Number"],
-                    title=row["Title"],
+                    title=clean_text(row["Title"]),
                     credits_min=credits_min,
                     credits_max=credits_max,
                     gen_ed=parse_gen_ed(row["Attributes"]),
@@ -84,7 +89,7 @@ class CsvCatalogImporter:
                 term.add_course(course)
 
             section = Section(
-                title=row["Title"],
+                title=clean_text(row["Title"]),
                 section=row["Section"],
                 crn=row["CRN"] or None,
                 instructor=row["Instructor"].strip() or "TBA",

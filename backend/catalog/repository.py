@@ -22,6 +22,14 @@ class CatalogRepository:
     def get(self, code: str) -> Course | None:
         return self.term.get_course(code)
 
+    def add(self, course: Course) -> bool:
+        if self.term.get_course(course.code) is not None:
+            return False
+        
+        self.term.add_course(course)
+
+        return True
+
     def search(self, q=None, subject=None, credits=None, gen_ed=None) -> list[Course]:
         results = []
 
