@@ -1,10 +1,31 @@
 from flask import Blueprint, current_app, jsonify, request
 from scheduler import generate_schedule, schedule_to_dict
+from catalog.manual import course_from_json
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
 def get_repo():
     return current_app.config.get("REPO")
+
+@api.post("/courses")
+def add_course():
+
+    repo = get_repo()
+    
+    if repo is None:
+        return jsonify(error="Catalog is not loaded"), 503
+
+    body = request.get_json(silent=True) or {}
+
+    try:
+        course = course_from_json(body)
+    except ValueError as error:
+        return jsonify(error=str(error)), 400
+
+    if not repo.add(course):
+        return jsonify(error=f"Course {course.code} already exists"), 409
+
+    return jsonify(course.to_dict()), 201
 
 @api.get("/courses")
 def list_courses():
