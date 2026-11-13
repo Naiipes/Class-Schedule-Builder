@@ -38,7 +38,7 @@ def parse_section(data: dict, title: str) -> Section:
 
 def course_from_json(body: dict) -> Course:
     subject = str(body.get("subject", "")).strip().upper()
-    number = str(body.get("number", "")).strip()
+    number = str(body.get("number", "")).strip().upper()
     title = str(body.get("title", "")).strip()
 
     if not subject or not number or not title:
