@@ -12,7 +12,7 @@ def make_term() -> Term:
         Section(section="02", meetings=[Meeting(day="T", start="08:00", end="10:00"), Meeting(day="R", start="10:30", end="12:30")]),
     ]))
     term.add_course(Course(subject="MATH", number="1041", title="Calculus I", credits_min=4, credits_max=4, sections=[
-        Section(section="01", meetings=[Meeting(day="T", start="08:00", end="09:00")]),
+        Section(section="01", meetings=[Meeting(day="W", start="08:00", end="09:00")]),
     ]))
     return term
 
