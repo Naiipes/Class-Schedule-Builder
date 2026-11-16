@@ -242,6 +242,90 @@ th {
   background-color: #f7f7f7;
 }
 
+/* schedules */
+.big-btn {
+  background-color: #2c3e50;
+  color: white;
+  font-size: 16px;
+  padding: 10px 30px;
+}
+
+.big-btn:hover {
+  background-color: #3d5670;
+}
+
+#schedule-switcher {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+#schedule-switcher[hidden] {
+  display: none;
+}
+
+#calendar-wrapper {
+  overflow-x: auto;
+}
+
+#calendar {
+  display: flex;
+  min-width: 600px;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+
+.time-column {
+  width: 50px;
+  flex-shrink: 0;
+}
+
+.day-column {
+  flex: 1;
+  border-left: 1px solid #ccc;
+}
+
+.day-header {
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  background-color: #f7f7f7;
+}
+
+.day-body {
+  position: relative;
+  background-image: linear-gradient(to bottom, #e5e5e5 1px, transparent 1px);
+}
+
+.day-body.hours {
+  background-image: none;
+}
+
+.hour-label {
+  position: absolute;
+  right: 5px;
+  font-size: 11px;
+  color: #777;
+}
+
+.class-block {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 3px 5px;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+#extra-classes {
+  margin-top: 10px;
+}
+
 /* phone */
 @media (max-width: 750px) {
   main {

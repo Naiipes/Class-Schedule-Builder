@@ -6,6 +6,7 @@ export function showShortlist() {
 
   document.getElementById("shortlist-credits").textContent = totalCredits();
   document.getElementById("shortlist-empty").hidden = state.shortlist.length > 0;
+  document.getElementById("generate-btn").disabled = state.shortlist.length === 0;
 
   for (let course of state.shortlist) {
     let card = document.createElement("div");

@@ -1,5 +1,7 @@
 export let state = {
   shortlist: [],
+  schedules: [],
+  scheduleIndex: 0,
 };
 
 // main.js sets this so the page redraws when the shortlist changes
