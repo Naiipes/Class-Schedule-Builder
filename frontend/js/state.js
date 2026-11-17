@@ -1,3 +1,5 @@
+export const MAX_SHORTLIST = 8;
+
 export let state = {
   shortlist: [],
   schedules: [],
@@ -19,6 +21,7 @@ export function inShortlist(code) {
 
 export function addToShortlist(course) {
   if (inShortlist(course.code)) return;
+  if (state.shortlist.length >= MAX_SHORTLIST) return;
   state.shortlist.push(course);
   updateShortlistUI();
 }
