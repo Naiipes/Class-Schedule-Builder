@@ -1,4 +1,4 @@
-const USE_MOCK = true;
+const USE_MOCK = false;
 const BASE_URL = "";
 
 async function request(path, options = {}) {
@@ -75,7 +75,7 @@ export async function addCourse(course) {
     const code = `${course.subject} ${course.number}`.toUpperCase();
     
     if (MOCK_COURSES.some((c) => c.code === code)) {
-      throw new Error(`Course ${code} alredy exists`);
+      throw new Error(`Course ${code} already exists`);
     }
 
     for (const s of course.sections) {
