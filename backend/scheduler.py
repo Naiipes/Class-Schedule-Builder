@@ -72,29 +72,6 @@ def gap_minutes(meetings: list) -> int:
 
     return total
 
-def meetings_of(schedule: list[tuple[Course, Section]]) -> list:
-    meetings = []
-    for _, section in schedule:
-        for meeting in section.meetings:
-            meetings.append(meeting)
-    return meetings
-
-def gap_minutes(meetings: list) -> int:
-    total = 0
-    for day in "MTWRFSU":
-        times = []
-        for meeting in meetings:
-            if meeting.day == day:
-                times.append((conv_to_minutes(meeting.start), conv_to_minutes(meeting.end)))
-
-        times.sort()
-
-        for i in range(1, len(times)):
-            gap = times[i][0] - times[i - 1][1]
-            if gap > 0:
-                total += gap
-    return total
-
 def score_schedule(schedule: list[tuple[Course, Section]], preferences: dict) -> int:
     meetings = meetings_of(schedule)
     penalty = 0

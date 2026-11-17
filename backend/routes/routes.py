@@ -97,8 +97,6 @@ def create_schedule():
         if course not in courses:
             courses.append(course)
 
-    schedules = generate_schedule(courses, limit)
-
     preferences = body.get("preferences") or {}
 
     if not isinstance(preferences, dict):
