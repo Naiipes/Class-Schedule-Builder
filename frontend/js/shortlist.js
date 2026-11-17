@@ -1,4 +1,4 @@
-import { state, removeFromShortlist, totalCredits, creditText } from "./state.js";
+import { state, MAX_SHORTLIST, removeFromShortlist, totalCredits, creditText } from "./state.js";
 
 export function showShortlist() {
   let list = document.getElementById("shortlist");
@@ -6,6 +6,7 @@ export function showShortlist() {
 
   document.getElementById("shortlist-credits").textContent = totalCredits();
   document.getElementById("shortlist-empty").hidden = state.shortlist.length > 0;
+  document.getElementById("generate-btn").disabled = state.shortlist.length === 0 || state.shortlist.length > MAX_SHORTLIST;
 
   for (let course of state.shortlist) {
     let card = document.createElement("div");

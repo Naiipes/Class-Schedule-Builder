@@ -1,5 +1,5 @@
 import { getCourses } from "./api.js";
-import { inShortlist, addToShortlist, removeFromShortlist, creditText, meetingText } from "./state.js";
+import { state, MAX_SHORTLIST, inShortlist, addToShortlist, removeFromShortlist, creditText, meetingText } from "./state.js";
 
 // "" = all
 let filters = { q: "", subject: "", credits: "", gen_ed: "" };
@@ -143,6 +143,7 @@ function makeCourseCard(course) {
   } else {
     addBtn.textContent = "Add";
     addBtn.className = "add-btn";
+    addBtn.disabled = state.shortlist.length >= MAX_SHORTLIST;
     addBtn.addEventListener("click", () => addToShortlist(course));
   }
 
