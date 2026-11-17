@@ -1,6 +1,10 @@
 from flask import Blueprint, current_app, jsonify, request
-from scheduler import generate_schedule, schedule_to_dict
+from scheduler import generate_schedule, rank_schedules, schedule_to_dict
 from catalog.manual import course_from_json
+import re
+
+MAX_CANDIDATES = 1000
+TIME_PATTERN = re.compile(r"^\d{2}:\d{2}$")
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
@@ -93,11 +97,36 @@ def create_schedule():
         if course not in courses:
             courses.append(course)
 
-    schedules = generate_schedule(courses, limit)
-    result = []
+    preferences = body.get("preferences") or {}
 
-    for i in range(len(schedules)):
-        schedule_id = i + 1
-        result.append(schedule_to_dict(schedule_id, schedules[i]))
+    if not isinstance(preferences, dict):
+        return jsonify(error="preferences must be an object"), 400
+
+    free_day = preferences.get("free_day")
+
+    if free_day is not None and free_day not in ["M", "T", "W", "R", "F"]:
+        return jsonify(error="free_day must be one of M, T, W, R, F"), 400
+
+    earliest_start = preferences.get("earliest_start")
+
+    if earliest_start is not None and not TIME_PATTERN.match(str(earliest_start)):
+        return jsonify(error="earliest_start must look like HH:MM"), 400
+
+    fewer_gaps = preferences.get("fewer_gaps")
+
+    if fewer_gaps is not None and not isinstance(fewer_gaps, bool):
+        return jsonify(error="fewer_gaps must be true or false"), 400
+
+    schedules = generate_schedule(courses, MAX_CANDIDATES)
+    ranked = rank_schedules(schedules, preferences)
+
+    result = []
+    count = min(limit, len(ranked))
+    
+    for i in range(count):
+        score, schedule = ranked[i]
+        data = schedule_to_dict(i + 1, schedule)
+        data["score"] = score
+        result.append(data)
 
     return jsonify(result)
