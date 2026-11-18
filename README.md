@@ -1,4 +1,16 @@
 ## Class Schedule Builder
+## Team Members
+
+| Member         | GitHub       |
+|----------------|--------------|
+| Otavio Seki    | @Naiipes     |
+| Andrei Ushakov | @0xume       |
+| Kody K. Wong   | @kodywong1   |
+
+## Unfinished Features
+...
+
+## Report sections still to be completed
 ...
 
 
