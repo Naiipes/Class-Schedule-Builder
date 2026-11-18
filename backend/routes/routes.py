@@ -1,7 +1,8 @@
-from flask import Blueprint, current_app, jsonify, request
+import re
+from flask import Blueprint, Response, current_app, jsonify, request
+from calendar_export import build_ics
 from scheduler import generate_schedule, rank_schedules, schedule_to_dict
 from catalog.manual import course_from_json
-import re
 
 MAX_CANDIDATES = 1000
 TIME_PATTERN = re.compile(r"^\d{2}:\d{2}$")
@@ -130,3 +131,48 @@ def create_schedule():
         result.append(data)
 
     return jsonify(result)
+
+@api.post("/schedules/ics")
+def export_ics():
+    repo = get_repo()
+
+    if repo is None:
+        return jsonify(error="Catalog is not loaded"), 503
+
+    body = request.get_json(silent=True) or {}
+    sections_data = body.get("sections")
+
+    if not isinstance(sections_data, list) or len(sections_data) == 0:
+        return jsonify(error="sections must be a non-empty list"), 400
+
+    items = []
+
+    for item in sections_data:
+        if not isinstance(item, dict) or "code" not in item or "section" not in item:
+            return jsonify(error="each item needs code and section"), 400
+
+        code = str(item["code"]).strip().upper()
+        course = repo.get(code)
+
+        if course is None:
+            return jsonify(error=f"Course {code} not found"), 404
+
+        found = None
+
+        for section in course.sections:
+            if section.section == str(item["section"]):
+                found = section
+                break
+
+        if found is None:
+            return jsonify(error=f"Section {item['section']} of {code} not found"), 404
+
+        items.append((course, found))
+
+    text = build_ics(items, repo.term)
+
+    return Response(
+        text,
+        content_type="text/calendar; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="schedule.ics"'},
+    )

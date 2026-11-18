@@ -28,6 +28,7 @@ def generate_schedule(courses: list[Course], limit: int = 20) -> list[list[tuple
                 chosen.pop()
 
     backtracking(0)
+
     return results
 
 def schedule_to_dict(schedule_id: int, schedule: list[tuple[Course, Section]]) -> dict:
