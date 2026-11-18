@@ -14,6 +14,7 @@ source .venv/bin/activate
 
 ### 2. Install dependencies
 ```bash
+cd backend
 pip install -r requirements.txt
 ```
 
