@@ -17,7 +17,7 @@ A web app where a student searches a course catalog (TUJ Spring 2027) or adds co
 - **Performance measurements** (requirement N1) on one test computer
 
 ## Report sections still to be completed
-- 1. Abstract: sentence on `.ics` export
+- 1 Abstract: sentence on `.ics` export
 - 5.3 UML Class Diagram: update the diagram 
 - 5.4 Sequence Diagram: update the diagram 
 - 6.2 Implementation: manual entry UI, preferences UI, candidate limit paragraph, and calendar export
