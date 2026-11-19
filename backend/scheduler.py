@@ -28,7 +28,6 @@ def generate_schedule(courses: list[Course], limit: int = 20) -> list[list[tuple
                 chosen.pop()
 
     backtracking(0)
-
     return results
 
 def schedule_to_dict(schedule_id: int, schedule: list[tuple[Course, Section]]) -> dict:
@@ -91,6 +90,8 @@ def score_schedule(schedule: list[tuple[Course, Section]], preferences: dict) ->
         earliest = conv_to_minutes(earliest_start)
 
         for meeting in meetings:
+            if not meeting.start:
+                continue
             if conv_to_minutes(meeting.start) < earliest:
                 penalty += 10
 
