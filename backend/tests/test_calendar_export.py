@@ -21,6 +21,10 @@ def test_fold_line_splits_line_over_70_characters():
     line = "a" * 71
     assert fold_line(line) == ["a" * 70, " a"]
 
+def test_fold_line_keeps_line_at_boundary():
+    line = "a" * 70
+    assert fold_line(line) == ["a" * 70]
+
 def test_fold_line_splits_long_line_into_several_parts():
     parts = fold_line("a" * 200)
     assert [len(p) for p in parts] == [70, 70, 62] 
@@ -68,7 +72,7 @@ def test_group_meetings_of_section_without_meetings_is_empty():
 def test_build_ics_starts_on_first_class_date():
     term = Term(name="Spring 2027", start_date="2027-01-12", end_date="2027-04-21")
     course = Course(subject="CIS", number="3296", title="Software Design", credits_min=4, credits_max=4)
-    
+
     tr = Section(section="01", meetings=[Meeting(day="T", start="10:30", end="12:30"),
                                          Meeting(day="R", start="10:30", end="12:30")])
     mw = Section(section="02", meetings=[Meeting(day="M", start="09:00", end="10:00"),
