@@ -19,7 +19,7 @@ def parse_meeting(data: dict) -> Meeting:
     return Meeting(day, start, end)
 
 def parse_section(data: dict, title: str) -> Section:
-    section = str(data.get("section", "")).strip()
+    section = str(data.get("section") or "").strip()
 
     if not section:
         raise ValueError("Section is required")
@@ -37,9 +37,9 @@ def parse_section(data: dict, title: str) -> Section:
     )
 
 def course_from_json(body: dict) -> Course:
-    subject = str(body.get("subject", "")).strip().upper()
-    number = str(body.get("number", "")).strip().upper()
-    title = str(body.get("title", "")).strip()
+    subject = str(body.get("subject") or "").strip().upper()
+    number = str(body.get("number") or "").strip().upper()
+    title = str(body.get("title") or "").strip()
 
     if not subject or not number or not title:
         raise ValueError("subject, number and title are required")
