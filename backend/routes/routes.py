@@ -4,7 +4,7 @@ from calendar_export import build_ics
 from scheduler import generate_schedule, rank_schedules, schedule_to_dict
 from catalog.manual import course_from_json
 
-MAX_CANDIDATES = 1000
+MAX_CANDIDATES = 50000
 TIME_PATTERN = re.compile(r"^\d{2}:\d{2}$")
 
 api = Blueprint("api", __name__, url_prefix="/api")
