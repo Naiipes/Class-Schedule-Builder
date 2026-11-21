@@ -42,13 +42,18 @@ for course in courses:
 random.seed(1)
 slowest_time = 0
 slowest_count = 0
+hit_cap = 0
 
 for i in range(100):
     shortlist = random.sample(courses_with_choice, 8)
 
     start = time.time()
     schedules = generate_schedule(shortlist, None)
+    rank_schedules(schedules, preferences)
     time_taken = time.time() - start
+
+    if len(schedules) > 50000:
+        hit_cap += 1
 
     if time_taken > slowest_time:
         slowest_time = time_taken
@@ -56,3 +61,4 @@ for i in range(100):
 
 print("100 random shortlists of 8 courses")
 print("  slowest:", round(slowest_time, 3), "s with", slowest_count, "schedules")
+print("  shortlists over the 50000 cap:", hit_cap)
