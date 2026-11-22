@@ -109,7 +109,8 @@ def test_results_capped_at_custom_limit():
 def test_limit_zero_returns_no_schedules():
     assert generate_schedule(many_online_courses(), limit=0) == []
 
-
+def test_no_limit_returns_all_schedules():
+    assert len(generate_schedule(many_online_courses(), limit=None)) == 32
 
 # schedule_to_dict
 
@@ -359,3 +360,31 @@ def test_rank_with_no_preferences_keeps_original_order():
     third = [(make_course(c, number="103"), c)] 
     assert rank_schedules([first, second, third], {}) == [(100, first), (100, second), (100, third)]
 
+
+# same shortlist, different preferences
+
+# helper: 4 sections, each of the first 3 is bad for exactly one preference, section 04 is fine for all
+def shortlist_with_one_bad_section_per_preference() -> list[Course]:
+    return [make_course(
+        Section(section="01", meetings=[Meeting(day="W", start="11:00", end="12:00"),
+                                        Meeting(day="W", start="15:00", end="16:00")]),
+        make_section("02", "M", "08:00", "09:00"),
+        make_section("03", "F", "10:00", "11:00"),
+        make_section("04", "T", "10:00", "11:00"),
+    )]
+
+def ranked_sections(preferences: dict) -> list[str]:
+    schedules = generate_schedule(shortlist_with_one_bad_section_per_preference())
+    return [schedule[0][1].section for _, schedule in rank_schedules(schedules, preferences)]
+
+def test_same_shortlist_without_preferences_keeps_generation_order():
+    assert ranked_sections({}) == ["01", "02", "03", "04"]
+
+def test_same_shortlist_fewer_gaps_moves_gapped_section_last():
+    assert ranked_sections({"fewer_gaps": True}) == ["02", "03", "04", "01"]
+
+def test_same_shortlist_earliest_start_moves_early_section_last():
+    assert ranked_sections({"earliest_start": "09:00"}) == ["01", "03", "04", "02"]
+
+def test_same_shortlist_free_day_moves_friday_section_last():
+    assert ranked_sections({"free_day": "F"}) == ["01", "02", "04", "03"]
