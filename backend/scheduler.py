@@ -7,12 +7,12 @@ def fits(section: Section, chosen: list[tuple[Course, Section]]) -> bool:
 
     return True
 
-def generate_schedule(courses: list[Course], limit: int = 20) -> list[list[tuple[Course, Section]]]:
+def generate_schedule(courses: list[Course], limit: int | None = 20) -> list[list[tuple[Course, Section]]]:
     chosen = []
     results = []
 
     def backtracking(i: int):
-        if len(results) >= limit:
+        if limit is not None and len(results) >= limit:
             return
 
         if len(courses) == i:
