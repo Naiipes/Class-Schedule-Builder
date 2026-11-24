@@ -242,6 +242,24 @@ th {
   background-color: #f7f7f7;
 }
 
+/* preferences */
+#preferences {
+  max-width: 350px;
+  margin-top: 15px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+}
+
+.checkbox input {
+  width: auto;
+  margin: 0;
+}
+
 /* schedules */
 .big-btn {
   background-color: #2c3e50;

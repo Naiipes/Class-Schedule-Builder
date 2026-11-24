@@ -25,13 +25,21 @@ async function generate() {
 
   let codes = state.shortlist.map((c) => c.code);
   try {
-    state.schedules = await generateSchedules(codes);
+    state.schedules = await generateSchedules(codes, getPreferences());
     state.scheduleIndex = 0;
     showSchedule();
     showPage("schedules");
   } catch (err) {
     error.textContent = err.message;
   }
+}
+
+function getPreferences() {
+  return {
+    free_day: document.getElementById("free-day").value,
+    earliest_start: document.getElementById("earliest-start").value,
+    fewer_gaps: document.getElementById("fewer-gaps").checked,
+  };
 }
 
 function changeSchedule(step) {
@@ -60,7 +68,8 @@ function showSchedule() {
   switcher.hidden = false;
 
   document.getElementById("schedule-label").textContent =
-    "Schedule " + (state.scheduleIndex + 1) + " of " + total + " (" + schedule.total_credits + " credits)";
+    "Schedule " + (state.scheduleIndex + 1) + " of " + total +
+    " (" + schedule.total_credits + " credits, score " + schedule.score + "/100)";
   document.getElementById("prev-btn").disabled = state.scheduleIndex === 0;
   document.getElementById("next-btn").disabled = state.scheduleIndex === total - 1;
 
