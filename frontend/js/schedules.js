@@ -1,4 +1,4 @@
-import { generateSchedules } from "./api.js";
+import { generateSchedules, exportIcs } from "./api.js";
 import { state, showPage, meetingText } from "./state.js";
 
 const DAYS = ["M", "T", "W", "R", "F"];
@@ -17,6 +17,7 @@ export function setupSchedules() {
   document.getElementById("generate-btn").addEventListener("click", generate);
   document.getElementById("prev-btn").addEventListener("click", () => changeSchedule(-1));
   document.getElementById("next-btn").addEventListener("click", () => changeSchedule(1));
+  document.getElementById("download-btn").addEventListener("click", downloadCalendar);
 }
 
 async function generate() {
@@ -42,6 +43,26 @@ function getPreferences() {
   };
 }
 
+async function downloadCalendar() {
+  let error = document.getElementById("download-error");
+  error.textContent = "";
+
+  let schedule = state.schedules[state.scheduleIndex];
+  try {
+    let file = await exportIcs(schedule);
+    let url = URL.createObjectURL(file);
+
+    let link = document.createElement("a");
+    link.href = url;
+    link.download = "schedule.ics";
+    link.click();
+
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    error.textContent = err.message;
+  }
+}
+
 function changeSchedule(step) {
   let newIndex = state.scheduleIndex + step;
   if (newIndex < 0 || newIndex >= state.schedules.length) return;
@@ -64,6 +85,7 @@ function showSchedule() {
   }
 
   let schedule = state.schedules[state.scheduleIndex];
+  document.getElementById("download-error").textContent = "";
   message.hidden = true;
   switcher.hidden = false;
 

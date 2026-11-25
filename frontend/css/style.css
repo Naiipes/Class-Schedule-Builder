@@ -274,9 +274,14 @@ th {
 
 #schedule-switcher {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 15px;
   margin-bottom: 15px;
+}
+
+#download-btn {
+  margin-left: auto;
 }
 
 #schedule-switcher[hidden] {
