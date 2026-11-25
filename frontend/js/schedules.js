@@ -180,15 +180,22 @@ function drawBlocks(schedule) {
       block.style.backgroundColor = COLORS[index % COLORS.length];
 
       let code = document.createElement("b");
-      code.textContent = s.code;
+      code.textContent = s.code + " · Sec " + s.section;
       let time = document.createElement("div");
       time.textContent = m.start + "-" + m.end;
+      let instructor = document.createElement("div");
+      instructor.textContent = s.instructor;
       let title = document.createElement("div");
       title.textContent = s.title;
 
+      block.title = s.code + " Sec " + s.section + "\n" + s.title + "\n" + m.start + "-" + m.end + "\n" + s.instructor;
+
       block.appendChild(code);
       block.appendChild(time);
-      block.appendChild(title);
+      block.appendChild(instructor);
+      if (end - start >= 80) {
+        block.appendChild(title);
+      }
       column.appendChild(block);
     }
   });

@@ -344,7 +344,16 @@ th {
   border-radius: 4px;
   padding: 3px 5px;
   font-size: 12px;
+  line-height: 1.15;
   overflow: hidden;
+}
+
+.class-block b,
+.class-block div {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #extra-classes {
