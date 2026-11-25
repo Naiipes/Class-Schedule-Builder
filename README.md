@@ -100,16 +100,6 @@ frontend/             HTML, CSS, and JavaScript (catalog, shortlist, schedules)
 docs/API.md           API contract
 ```
 
-## Unfinished Features
-
-The backend for these features is finished and tested, and they can be used through the API, but the front end does not use them yet:
-
-- **Manual entry form:** no form on the page yet; courses can only be added with `POST /api/courses`.
-- **Preference controls:** the schedules page does not send preferences, so every schedule scores 100 and appears in the order it was generated.
-- **Score and unmet preferences:** the page does not show each schedule's score or which preferences it breaks.
-- **Section number and instructor on the grid:** class blocks show the course code, title, and time only.
-- **Export button:** no button on the schedules page yet; `.ics` files can only be downloaded with `POST /api/schedules/ics`.
-
 ## Known Issues and Limitations
 
 - **Candidate limit:** at most 50,000 schedules are generated and ranked per request. For shortlists with more valid schedules (mostly those with several courses without meeting times), the results are the best among the 50,000 evaluated, not of all valid schedules. In 100 random 8-course shortlists, none reached the limit.
