@@ -2,6 +2,7 @@ import { state, showPage, setShortlistUpdater, totalCredits, removeFromShortlist
 import { setupCatalog, loadCatalog, showResults } from "./catalog.js";
 import { showShortlist } from "./shortlist.js";
 import { setupSchedules } from "./schedules.js";
+import { setupAddCourse } from "./addcourse.js";
 
 // nav tabs + "go to shortlist" button
 document.addEventListener("click", (e) => {
@@ -34,6 +35,7 @@ function shortlistChanged() {
 setShortlistUpdater(shortlistChanged);
 setupCatalog();
 setupSchedules();
+setupAddCourse();
 loadCatalog();
 shortlistChanged();
 showPage("catalog");
