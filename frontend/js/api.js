@@ -160,10 +160,10 @@ function mockScore(schedule, prefs) {
   let score = 100;
 
   if (prefs.free_day && meetings.some((m) => m.day === prefs.free_day)) {
-    score -= 50;
+    score -= 40;
   }
   if (prefs.earliest_start && meetings.some((m) => m.start < prefs.earliest_start)) {
-    score -= 20;
+    score -= 10;
   }
 
   return score;
